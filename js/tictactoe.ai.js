@@ -30,22 +30,21 @@ tictactoe.ai = (function() {
   },
   board = [0,0,0, 0,0,0, 0,0,0]
 
-
   /*
 
   function toMove
-  
+
   determines whose turn it is to move
   input: a tic-tac-toe board
   output: returns 1 for noughts (O) and -1 for crosses (X)
 
   */
-  
+
   function toMove() {
 
     var boardState = (arguments && isBoard(arguments[0]) ? arguments[0] : board),
         players = [0,0]
-    
+
     for (var b = 0; b < boardState.length; b++) {
       if (boardState[b] == 1){
         players[0]++
@@ -59,7 +58,7 @@ tictactoe.ai = (function() {
     }
     return -1
   }
-   
+
   /*
 
   function occupy
@@ -76,7 +75,7 @@ tictactoe.ai = (function() {
     }
     return false
   }
-  
+
   /*
 
   function clear
@@ -92,7 +91,7 @@ tictactoe.ai = (function() {
   /*
 
   function isBoard
-  
+
   basic check to see if input is a tic-tac-toe board
   input: a board
   output: true if input is a board, false if its not
@@ -112,7 +111,7 @@ tictactoe.ai = (function() {
 
   */
   function getFreePositions() {
-    
+
     var boardState = arguments[0] ? arguments[0] : board,
         moves = []
 
@@ -122,7 +121,7 @@ tictactoe.ai = (function() {
     }
     return moves
   }  
-  
+
   /*
 
   function terminalTest
@@ -133,11 +132,11 @@ tictactoe.ai = (function() {
 
   */
   function terminalTest() {
-    
+
     var boardState = (arguments && isBoard(arguments[0]) ? arguments[0] : board)
     return getFreePositions(boardState) == 0
   }
- 
+
   /*
 
   function winner
@@ -148,13 +147,13 @@ tictactoe.ai = (function() {
 
   */
   function winner() {
-    
+
     var boardState = (arguments && arguments.length == 2 && isBoard(arguments[0]) ? arguments[0] : board),
         player = (arguments && arguments.length == 2 && isBoard(arguments[0]) ? arguments[1] : arguments[0]),
         result = winnerWhere(boardState,player)
     return (result[0] != -1 && result[1] != -1)
   }
-  
+
   /*
 
   function loser
@@ -169,7 +168,7 @@ tictactoe.ai = (function() {
         player = (arguments && arguments.length == 2 && isBoard(arguments[0]) ? arguments[1] : arguments[0])
     return winner(boardState, -player)
   }
-    
+
   /*
 
   function winnerWhere
@@ -177,24 +176,24 @@ tictactoe.ai = (function() {
   returns the location of the start/end of the winning line.
   e.g. a win on the first column for player will return [0,6],
   a win on the first row for player will return [0,2]
-  
+
   input: boardState (optional, otherwise returns internal board), player
   output: 2 element array containing the starting location and ending location of the win
           returs [-1,-1] if not found
 
   */
   function winnerWhere() {
-    
+
     var boardState = (arguments && arguments.length == 2 && isBoard(arguments[0]) ? arguments[0] : board),
         player = (arguments && arguments.length == 2 && isBoard(arguments[0]) ? arguments[1] : arguments[0]),
         diag1,
         diag2,
         row,
         col
-          
+
     for (var r = 0; r < config.rows ; r++ ) {
       row = boardState.slice(r*config.rows,(r*config.rows)+config.rows)
-      
+
       if (row.count(player) == config.numToWin) {
         return [r*config.rows,(r*config.rows)+config.rows-1] 
       }
@@ -212,18 +211,18 @@ tictactoe.ai = (function() {
       written this way so it can handle any sized tictactoe configuration and how many you need to win 
       assuming its just a basic 3x3 box, this will still just run row*col times
     */
-    
+
     for (var dc1 = 0; dc1 < (config.rows - config.numToWin + 1); dc1++) {
       for (var dr1 = 0; dr1 < (config.cols - config.numToWin + 1); dr1++) {
-    
+
         diag1 = []
         diag2 = []
-        
+
         for (var dsub = 0; dsub < config.numToWin; dsub++ ) {
           diag1.push( boardState[(dr1*config.cols) + (dsub*(config.rows+1))] )
           diag2.push( boardState[(dr1*config.cols) + 2 +(dsub*(config.cols-1))] )
         }
-        
+
         if (diag1.count(player) == config.numToWin) {
           return [(dr1*config.cols) + (0*(config.rows+1)), (dr1*config.cols) + ((config.numToWin-1)*(config.rows+1))]
         }
@@ -238,7 +237,7 @@ tictactoe.ai = (function() {
   /*
 
   function utility
-  
+
   returns the value of the current board, boardState for the player
   input: a boardState (optional, otherwise internal board is used, a player
   output: the value of the board
@@ -258,7 +257,7 @@ tictactoe.ai = (function() {
         col
 
     for (var r = 0; r < config.rows ; r++ ) {
-      
+
       row = boardState.slice(r*3,(r*3)+3)
       if (row.count(player) > 0 && row.count(-player) == 0)  {
         score += markScore[row.count(player)]
@@ -385,7 +384,7 @@ tictactoe.ai = (function() {
 
   */
   function maxValue( state, depth, alpha, beta, player, firstPlayer) {
-  
+
     if (terminalTest(state) || depth == 0 || winner(state,firstPlayer) || loser(state,firstPlayer) ) {
       return utility( state , firstPlayer  )
     }
@@ -394,14 +393,14 @@ tictactoe.ai = (function() {
         newBoard = state.slice(0),
         tryMove,
         minVal
-        
+
     for (var i = 0; i < possMoves.length; i++) {
       tryMove = possMoves[i]
       newBoard = state.slice(0)
       newBoard[tryMove] = player
-      
+
       minVal =  minValue( newBoard, depth-1, alpha, beta, -player, firstPlayer)
-      
+
       v = Math.max(v, minVal)
       if (v >= beta) {
         return v
@@ -411,7 +410,7 @@ tictactoe.ai = (function() {
     return v
   }
   /*
-  
+
   function minValue
 
   returns the min value the successors to 'state', part of alphaBetaSearch
@@ -430,13 +429,13 @@ tictactoe.ai = (function() {
         maxVal
 
     for (var i = 0; i < possMoves.length; i++) {
-      
+
       tryMove = possMoves[i]
       newBoard = state.slice(0)
       newBoard[tryMove] = player
-  
+
       maxVal = maxValue( newBoard, depth-1, alpha, beta, -player, firstPlayer)
-      
+
       v = Math.min(v, maxVal)
       if (v <= alpha) {
         return v
