@@ -1,4 +1,4 @@
-TIC TAC TOE
+TICTACTOE.JS
 ===============
 
 Plays a game of tic-tac-toe using Canvas and Javascript. AI being used is a negamax variant of minimax with alpha-beta pruning.

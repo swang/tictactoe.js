@@ -179,7 +179,7 @@ tictactoe.ai = (function() {
 
   input: boardState (optional, otherwise returns internal board), player
   output: 2 element array containing the starting location and ending location of the win
-          returs [-1,-1] if not found
+          returns [-1,-1] if not found
 
   */
   function winnerWhere() {
