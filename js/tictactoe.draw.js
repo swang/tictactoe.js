@@ -1,3 +1,5 @@
+'use strict';
+
 var tictactoe
 
 if (!tictactoe) tictactoe = {}
@@ -52,17 +54,17 @@ tictactoe.draw = (function() {
     context.lineWidth = 5
     context.strokeStyle = "black"
 
-    context.moveTo(100,0)
-    context.lineTo(100,300)
+    context.moveTo(100, 0)
+    context.lineTo(100, 300)
 
-    context.moveTo(200,0)
-    context.lineTo(200,300)
+    context.moveTo(200, 0)
+    context.lineTo(200, 300)
 
-    context.moveTo(0,100)
-    context.lineTo(300,100)
+    context.moveTo(0, 100)
+    context.lineTo(300, 100)
 
-    context.moveTo(0,200)
-    context.lineTo(300,200)
+    context.moveTo(0, 200)
+    context.lineTo(300, 200)
 
     context.stroke()
 
@@ -81,7 +83,7 @@ tictactoe.draw = (function() {
   */
   function newGameButton() {
     context.beginPath()
-    context.rect(5, 310, 290 , 80 )
+    context.rect(5, 310, 290, 80)
     context.fillStyle = "#39e42d"
     context.fill()
     context.lineWidth = 5
@@ -110,24 +112,24 @@ tictactoe.draw = (function() {
 
   */
   function cross(location) {
-    col = location % 3
-    row = Math.floor(location / 3)
-    topLeftX = (col*100)
-    topLeftY = (row*100)
+    var col = location % 3,
+        row = Math.floor(location / 3),
+        topLeftX = (col*100),
+        topLeftY = (row*100)
 
     context.beginPath()
 
-    context.moveTo( topLeftX + 20, topLeftY + 20)
-    context.lineTo( topLeftX + 80, topLeftY + 80)
+    context.moveTo(topLeftX + 20, topLeftY + 20)
+    context.lineTo(topLeftX + 80, topLeftY + 80)
 
-    context.moveTo( topLeftX + 80, topLeftY + 20)
-    context.lineTo( topLeftX + 20, topLeftY + 80)
+    context.moveTo(topLeftX + 80, topLeftY + 20)
+    context.lineTo(topLeftX + 20, topLeftY + 80)
 
     context.closePath()
 
     context.lineWidth = 5
     context.strokeStyle = "black"
-    context.stroke();        
+    context.stroke();
   }
 
   /*
@@ -140,11 +142,12 @@ tictactoe.draw = (function() {
 
   */
   function nought(location) {
-    col = location % 3
-    row = Math.floor(location / 3)
-    centerX = (col*100) + 50
-    centerY = (row*100) + 50
-    radius  = 40
+    var col = location % 3,
+        row = Math.floor(location / 3),
+        centerX = (col * 100) + 50,
+        centerY = (row * 100) + 50,
+        radius = 40
+
     context.beginPath()
     context.arc(centerX, centerY, radius, 0, 2 * Math.PI, false)
     context.closePath()
@@ -161,18 +164,18 @@ tictactoe.draw = (function() {
 
   writes `text` across the board in `color`
   input: text, color
-  output: 
+  output:
 
   */
   function stamp(text, color) {
 
     context.save()
 
-    context.rotate(-Math.PI*2 / 12)
-    context.translate(57,190)
+    context.rotate(-Math.PI * 2 / 12)
+    context.translate(57, 190)
     context.beginPath()
-    context.rect(-150, -20, 290 , 80 )
-    context.fillStyle = "rgba(255,255,255,0.75)"
+    context.rect(-150, -20, 290, 80)
+    context.fillStyle = "rgba(255, 255, 255, 0.75)"
     context.fill()
     context.lineWidth = 5
     context.strokeStyle = color
@@ -216,11 +219,11 @@ tictactoe.draw = (function() {
       modX1 = 50
       modX2 = 50
       modY1 = 20
-      modY2 = 100-modY1
+      modY2 = 100 - modY1
     }
     if (fromRow == toRow) {
       modX1 = 20
-      modX2 = 100-modX1
+      modX2 = 100 - modX1
       modY1 = 50
       modY2 = 50
     }
@@ -232,8 +235,8 @@ tictactoe.draw = (function() {
       modY2 = 80
     }
 
-    context.moveTo( fromCol*100 + modX1, fromRow*100 + modY1)
-    context.lineTo( toCol*100 + modX2  , toRow*100  + modY2 )
+    context.moveTo(fromCol*100 + modX1, fromRow*100 + modY1)
+    context.lineTo(toCol*100 + modX2 , toRow*100  + modY2)
     context.lineCap = "round"
     context.closePath()
 
@@ -254,7 +257,7 @@ tictactoe.draw = (function() {
 
   */
   function clear() {
-    context.clearRect ( 0 , 0 , 300, 400 )
+    context.clearRect(0, 0, 300, 400)
     board()
     newGameButton()
   }

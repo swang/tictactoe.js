@@ -1,8 +1,10 @@
+'use strict';
+
 var tictactoe
 
 if (!tictactoe) tictactoe = {}
 
-Array.prototype.count = function( item ) {
+Array.prototype.count = function(item) {
   var count = 0
   for (var c = 0; c < this.length;c++) {
     if (this[c] == item)
@@ -14,9 +16,9 @@ Array.prototype.count = function( item ) {
 tictactoe.ai = (function() {
 
   // board locations are referenced like this:
-  //[0,1,2
-  // 3,4,5
-  // 6,7,8]
+  // [0,1,2
+  //  3,4,5
+  //  6,7,8]
 
   var config = {
     rows: 3,
@@ -24,11 +26,7 @@ tictactoe.ai = (function() {
     numToWin: 3,
     ply: 4
   },
-  players = {
-    cross: -1,
-    naughts: 1
-  },
-  board = [0,0,0, 0,0,0, 0,0,0]
+  board = [0, 0, 0, 0, 0, 0, 0, 0, 0]
 
   /*
 
@@ -43,7 +41,7 @@ tictactoe.ai = (function() {
   function toMove() {
 
     var boardState = (arguments && isBoard(arguments[0]) ? arguments[0] : board),
-        players = [0,0]
+        players = [0, 0]
 
     for (var b = 0; b < boardState.length; b++) {
       if (boardState[b] == 1){
@@ -68,7 +66,7 @@ tictactoe.ai = (function() {
   output: returns true if player is able to move there, otherwise false
 
   */
-  function occupy( location ) {
+  function occupy(location) {
     if (getFreePositions().indexOf(location) != -1) {
       board[location] = toMove()
       return true
@@ -86,7 +84,7 @@ tictactoe.ai = (function() {
 
   */
   function clear() {
-    board = [0,0,0,0,0,0,0,0,0]
+    board = [0, 0, 0, 0, 0, 0, 0, 0, 0]
   }
   /*
 
@@ -97,8 +95,8 @@ tictactoe.ai = (function() {
   output: true if input is a board, false if its not
 
   */
-  function isBoard( board ) {
-    return (board != undefined && board.length == 9)
+  function isBoard(board) {
+    return (board !== undefined && board.length == 9)
   }
 
   /*
@@ -116,11 +114,11 @@ tictactoe.ai = (function() {
         moves = []
 
     for (var move = 0; move < boardState.length; move++) {
-      if (boardState[move] == 0) 
+      if (boardState[move] === 0)
         moves.push(move)
     }
     return moves
-  }  
+  }
 
   /*
 
@@ -150,7 +148,7 @@ tictactoe.ai = (function() {
 
     var boardState = (arguments && arguments.length == 2 && isBoard(arguments[0]) ? arguments[0] : board),
         player = (arguments && arguments.length == 2 && isBoard(arguments[0]) ? arguments[1] : arguments[0]),
-        result = winnerWhere(boardState,player)
+        result = winnerWhere(boardState, player)
     return (result[0] != -1 && result[1] != -1)
   }
 
@@ -174,12 +172,12 @@ tictactoe.ai = (function() {
   function winnerWhere
 
   returns the location of the start/end of the winning line.
-  e.g. a win on the first column for player will return [0,6],
-  a win on the first row for player will return [0,2]
+  e.g. a win on the first column for player will return [0, 6],
+  a win on the first row for player will return [0, 2]
 
   input: boardState (optional, otherwise returns internal board), player
   output: 2 element array containing the starting location and ending location of the win
-          returns [-1,-1] if not found
+          returns [-1, -1] if not found
 
   */
   function winnerWhere() {
@@ -191,24 +189,24 @@ tictactoe.ai = (function() {
         row,
         col
 
-    for (var r = 0; r < config.rows ; r++ ) {
-      row = boardState.slice(r*config.rows,(r*config.rows)+config.rows)
+    for (var r = 0; r < config.rows ; r++) {
+      row = boardState.slice(r*config.rows, (r*config.rows)+config.rows)
 
       if (row.count(player) == config.numToWin) {
-        return [r*config.rows,(r*config.rows)+config.rows-1] 
+        return [r*config.rows, (r*config.rows)+config.rows-1]
       }
     }
     for (var c = 0; c < config.cols; c++) {
       col = []
       for (var csub = c, iters = 0; csub < boardState.length && iters < config.numToWin; iters++, csub += config.cols) {
-        col.push( boardState[csub] )
+        col.push(boardState[csub])
       }
       if (col.count(player) == config.numToWin) {
         return [c, c+(config.cols*(config.numToWin-1)) ]
       }
     }
-    /*  
-      written this way so it can handle any sized tictactoe configuration and how many you need to win 
+    /*
+      written this way so it can handle any sized tictactoe configuration and how many you need to win
       assuming its just a basic 3x3 box, this will still just run row*col times
     */
 
@@ -218,20 +216,20 @@ tictactoe.ai = (function() {
         diag1 = []
         diag2 = []
 
-        for (var dsub = 0; dsub < config.numToWin; dsub++ ) {
-          diag1.push( boardState[(dr1*config.cols) + (dsub*(config.rows+1))] )
-          diag2.push( boardState[(dr1*config.cols) + 2 +(dsub*(config.cols-1))] )
+        for (var dsub = 0; dsub < config.numToWin; dsub++) {
+          diag1.push(boardState[(dr1*config.cols) + (dsub*(config.rows+1))])
+          diag2.push(boardState[(dr1*config.cols) + 2 +(dsub*(config.cols-1))])
         }
 
         if (diag1.count(player) == config.numToWin) {
           return [(dr1*config.cols) + (0*(config.rows+1)), (dr1*config.cols) + ((config.numToWin-1)*(config.rows+1))]
         }
         if (diag2.count(player) == config.numToWin) {
-          return [(dr1*config.cols) + 2 +(0*(config.cols-1)),(dr1*config.cols) + 2 +((config.numToWin-1)*(config.cols-1))]
+          return [(dr1*config.cols) + 2 +(0*(config.cols-1)), (dr1*config.cols) + 2 +((config.numToWin-1)*(config.cols-1))]
         }
       }
     }
-    return [-1,-1]
+    return [-1, -1]
   }
 
   /*
@@ -248,42 +246,42 @@ tictactoe.ai = (function() {
     // 3 4 5
     // 6 7 8
     var boardState = (arguments && arguments.length == 2 && isBoard(arguments[0]) ? arguments[0] : board),
-        player     = (arguments && arguments.length == 2 && isBoard(arguments[0]) ? arguments[1] : arguments[0]),
+        player = (arguments && arguments.length == 2 && isBoard(arguments[0]) ? arguments[1] : arguments[0]),
         score = 0,
-        markScore = [0, 1, 10,1000],
-        diag1 = [boardState[0],boardState[4],boardState[8]],
-        diag2 = [boardState[2],boardState[4],boardState[6]],
+        markScore = [0, 1, 10, 1000],
+        diag1 = [boardState[0], boardState[4], boardState[8]],
+        diag2 = [boardState[2], boardState[4], boardState[6]],
         row,
         col
 
-    for (var r = 0; r < config.rows ; r++ ) {
+    for (var r = 0; r < config.rows ; r++) {
 
-      row = boardState.slice(r*3,(r*3)+3)
-      if (row.count(player) > 0 && row.count(-player) == 0)  {
+      row = boardState.slice(r * 3, (r * 3) + 3)
+      if (row.count(player) > 0 && row.count(-player) === 0)  {
         score += markScore[row.count(player)]
       }
-      else if (row.count(-player) > 0 && row.count(player) == 0)  {
+      else if (row.count(-player) > 0 && row.count(player) === 0)  {
         score -= markScore[row.count(-player)]
       }
-      col = [boardState[r],boardState[r+3],boardState[r+6]]
-      if (col.count(player) > 0 && col.count(-player) == 0) {
+      col = [boardState[r], boardState[r+3], boardState[r+6]]
+      if (col.count(player) > 0 && col.count(-player) === 0) {
         score += markScore[ col.count(player) ]
       }
-      else if (col.count(-player) > 0 && col.count(player) == 0) {
+      else if (col.count(-player) > 0 && col.count(player) === 0) {
         score -= markScore[col.count(-player)]
       }
     }
-    if (diag1.count(player) > 0 && diag1.count(-player) == 0) {
+    if (diag1.count(player) > 0 && diag1.count(-player) === 0) {
       score += markScore[ diag1.count(player) ]
     }
-    else if (diag1.count(-player) > 0 && diag1.count(player) == 0) {
+    else if (diag1.count(-player) > 0 && diag1.count(player) === 0) {
       score -= markScore[ diag1.count(-player) ]
     }
-    if (diag2.count(player) > 0 && diag2.count(-player) == 0) {
+    if (diag2.count(player) > 0 && diag2.count(-player) === 0) {
       score += markScore[ diag2.count(player) ]
     }
-    else if (diag2.count(-player) > 0 && diag2.count(player) == 0) {
-      score -= markScore[ diag2.count(-player) ]    
+    else if (diag2.count(-player) > 0 && diag2.count(player) === 0) {
+      score -= markScore[ diag2.count(-player) ]
     }
     return score
   }
@@ -297,7 +295,7 @@ tictactoe.ai = (function() {
   output: returns an array containing 3 things: [player, value of this move, which location to place piece]
 
   */
-  function chooseRandom(state,player) {
+  function chooseRandom(state, player) {
     var possMoves = getFreePositions(state),
         result = possMoves[Math.floor(possMoves.length*Math.random())]
     return [player, 1, result]
@@ -311,11 +309,11 @@ tictactoe.ai = (function() {
   output: returns an array containing 3 things: [player, value of this move, which location to place piece]
 
   */
-  function alphaBetaSearch(state,player) {
+  function alphaBetaSearch(state, player) {
     var biggestValue = -Infinity,
         possMoves = getFreePositions(state),
         newBoard = state.slice(0),
-        result, 
+        result,
         tryMove,
         abs
     for (var i = 0; i < possMoves.length; i++) {
@@ -323,11 +321,11 @@ tictactoe.ai = (function() {
       newBoard[tryMove] = player
 
       if (winner(newBoard, player))
-        return [player,1000, tryMove]
+        return [player, 1000, tryMove]
       if (loser(newBoard, player))
-        return [player,-1000, tryMove]
-      // abs = minValue( newBoard, config.ply, -Infinity,Infinity, -player, player)
-      abs = -negaMax( newBoard, config.ply, -Infinity,Infinity, -player)
+        return [player, -1000, tryMove]
+      // abs = minValue(newBoard, config.ply, -Infinity,Infinity, -player, player)
+      abs = -negaMax(newBoard, config.ply, -Infinity, Infinity, -player)
 
       if (abs > biggestValue) {
         biggestValue = abs
@@ -335,7 +333,7 @@ tictactoe.ai = (function() {
       }
       newBoard[tryMove] = 0
     }
-    return [player,biggestValue, result]
+    return [player, biggestValue, result]
   }
   /*
 
@@ -346,10 +344,10 @@ tictactoe.ai = (function() {
   output: the value of state's successors based on utility()
 
   */
-  function negaMax( state, depth, alpha, beta, player) {
+  function negaMax(state, depth, alpha, beta, player) {
 
-    if (terminalTest(state) || depth == 0 || winner(state,player) || loser(state,player) ) {
-      return utility( state,player)
+    if (terminalTest(state) || depth === 0 || winner(state, player) || loser(state, player)) {
+      return utility(state, player)
     }
     var possMoves = getFreePositions(state),
         newBoard = state.slice(0),
@@ -361,7 +359,7 @@ tictactoe.ai = (function() {
 
       newBoard[tryMove] = player
 
-      val = -negaMax( newBoard, depth-1, -beta, -alpha, -player)
+      val = -negaMax(newBoard, depth-1, -beta, -alpha, -player)
 
       if (val >= beta) {
         return val
@@ -383,10 +381,10 @@ tictactoe.ai = (function() {
   output: the maximum value of state's successors based on utility()
 
   */
-  function maxValue( state, depth, alpha, beta, player, firstPlayer) {
+  function maxValue(state, depth, alpha, beta, player, firstPlayer) {
 
-    if (terminalTest(state) || depth == 0 || winner(state,firstPlayer) || loser(state,firstPlayer) ) {
-      return utility( state , firstPlayer  )
+    if (terminalTest(state) || depth === 0 || winner(state, firstPlayer) || loser(state, firstPlayer)) {
+      return utility(state , firstPlayer )
     }
     var v = -Infinity,
         possMoves = getFreePositions(state),
@@ -399,7 +397,7 @@ tictactoe.ai = (function() {
       newBoard = state.slice(0)
       newBoard[tryMove] = player
 
-      minVal =  minValue( newBoard, depth-1, alpha, beta, -player, firstPlayer)
+      minVal =  minValue(newBoard, depth-1, alpha, beta, -player, firstPlayer)
 
       v = Math.max(v, minVal)
       if (v >= beta) {
@@ -417,10 +415,10 @@ tictactoe.ai = (function() {
   input: boardState, current depth, the alpha/beta values, the player currently playing at this depth, the original player we are evaluating for
   output: the minimum value of state's successors based on utility()
   */
-  function minValue( state, depth, alpha, beta,player, firstPlayer) {
+  function minValue(state, depth, alpha, beta, player, firstPlayer) {
 
-    if (terminalTest(state) || depth == 0 || winner(state, firstPlayer) || loser(state,firstPlayer) ) {
-      return utility( state , firstPlayer )
+    if (terminalTest(state) || depth === 0 || winner(state, firstPlayer) || loser(state, firstPlayer)) {
+      return utility(state , firstPlayer)
     }
     var v = Infinity,
         possMoves = getFreePositions(state),
@@ -434,7 +432,7 @@ tictactoe.ai = (function() {
       newBoard = state.slice(0)
       newBoard[tryMove] = player
 
-      maxVal = maxValue( newBoard, depth-1, alpha, beta, -player, firstPlayer)
+      maxVal = maxValue(newBoard, depth-1, alpha, beta, -player, firstPlayer)
 
       v = Math.min(v, maxVal)
       if (v <= alpha) {
