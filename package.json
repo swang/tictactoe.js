@@ -1,0 +1,24 @@
+{
+  "name": "tictactoe.js",
+  "version": "1.0.0",
+  "description": "TICTACTOE.JS\r ===============",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "flow": "flow; test $? -eq 0 -o $? -eq 2",
+    "build": "npm run flow && babel --plugins transform-flow-strip-types ./js --out-dir=./build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/swang/tictactoe.js.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/swang/tictactoe.js/issues"
+  },
+  "homepage": "https://github.com/swang/tictactoe.js#readme",
+  "devDependencies": {
+    "flow-bin": "^0.26.0"
+  }
+}

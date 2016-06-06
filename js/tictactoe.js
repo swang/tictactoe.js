@@ -54,7 +54,7 @@ var main = (function() {
         }
 
         if (whoseTurn == 1 && !system.winner(1) && !system.winner(-1)) {
-          var res = system.alphaBetaSearch(system.board(), -whoseTurn )
+          var res = system.alphaBetaSearch(system.getBoard(), -whoseTurn)
 
           // to test win scenario, create ai that randomly chooses a valid turn.
           // var res = system.chooseRandom(system.board(), -whoseTurn )
