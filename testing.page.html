@@ -26,24 +26,24 @@
         draw = tictactoe.draw
     function testAllWinningBoards() {
 
-      return  system.winner([1,1,1,0,0,0,0,0,0],1) == true &&
-              system.winner([0,0,0,1,1,1,0,0,0],1) == true &&
-              system.winner([0,0,0,0,0,0,1,1,1],1) == true &&
-              system.winner([1,0,0,1,0,0,1,0,0],1) == true &&
-              system.winner([0,1,0,0,1,0,0,1,0],1) == true &&
-              system.winner([0,0,1,0,0,1,0,0,1],1) == true &&
-              system.winner([1,0,0,0,1,0,0,0,1],1) == true &&
-              system.winner([0,0,1,0,1,0,1,0,0],1) == true
+      return  system.winner(1, [1,1,1,0,0,0,0,0,0]) == true &&
+              system.winner(1, [0,0,0,1,1,1,0,0,0]) == true &&
+              system.winner(1, [0,0,0,0,0,0,1,1,1]) == true &&
+              system.winner(1, [1,0,0,1,0,0,1,0,0]) == true &&
+              system.winner(1, [0,1,0,0,1,0,0,1,0]) == true &&
+              system.winner(1, [0,0,1,0,0,1,0,0,1]) == true &&
+              system.winner(1, [1,0,0,0,1,0,0,0,1]) == true &&
+              system.winner(1, [0,0,1,0,1,0,1,0,0]) == true
     }
     function testAllLosingBoards() {
-      return  system.loser([1,1,1,0,0,0,0,0,0],-1) == true &&
-              system.loser([0,0,0,1,1,1,0,0,0],-1) == true &&
-              system.loser([0,0,0,0,0,0,1,1,1],-1) == true &&
-              system.loser([1,0,0,1,0,0,1,0,0],-1) == true &&
-              system.loser([0,1,0,0,1,0,0,1,0],-1) == true &&
-              system.loser([0,0,1,0,0,1,0,0,1],-1) == true &&
-              system.loser([1,0,0,0,1,0,0,0,1],-1) == true &&
-              system.loser([0,0,1,0,1,0,1,0,0],-1) == true
+      return  system.loser(-1, [1,1,1,0,0,0,0,0,0]) == true &&
+              system.loser(-1, [0,0,0,1,1,1,0,0,0]) == true &&
+              system.loser(-1, [0,0,0,0,0,0,1,1,1]) == true &&
+              system.loser(-1, [1,0,0,1,0,0,1,0,0]) == true &&
+              system.loser(-1, [0,1,0,0,1,0,0,1,0]) == true &&
+              system.loser(-1, [0,0,1,0,0,1,0,0,1]) == true &&
+              system.loser(-1, [1,0,0,0,1,0,0,0,1]) == true &&
+              system.loser(-1, [0,0,1,0,1,0,1,0,0]) == true
     }
     function testOccupyReturnsFalseForOccupiedPositions() {
       system.occupy(0)
