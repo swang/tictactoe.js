@@ -7,24 +7,13 @@ var main = (function() {
       context = canvas.getContext("2d"),
       gameOver = false
 
-  $(document).ready(function() {
-    $('#the_board').center()
+  document.addEventListener('DOMContentLoaded', function(event) {
     draw.setContext(context)
     draw.board()
     draw.newGameButton()
   })
-  jQuery.fn.center = function () {
-    this.css("position", "absolute")
-    this.css("top", (($(window).height() - this.outerHeight()) / 2) + $(window).scrollTop() + "px")
-    this.css("left", (($(window).width() - this.outerWidth()) / 2) + $(window).scrollLeft() + "px")
-    return this
-  }
 
-  $(window).bind('resize', function() {
-    $('#the_board').center()
-  })
-
-  $('#the_board').bind('click', function(e){
+  canvas.addEventListener('click', function(e) {
     var whoseTurn,
         occupy,
         offsetX = !e.offsetX ? (e.pageX - this.offsetLeft) : e.offsetX,
