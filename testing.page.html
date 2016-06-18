@@ -17,68 +17,77 @@
     </div>
 
   </body>
-  <script src="build/jquery.min.js"></script>
-
+  <script src="build/board.js"></script>
   <script src="build/tictactoe.ai.js"></script>
   <script src="build/tictactoe.draw.js"></script>
+  <script src="build/tictactoe.js"></script>
   <script>
+
     var system = tictactoe.ai,
         draw = tictactoe.draw
     function testAllWinningBoards() {
 
-      return  system.winner(1, [1,1,1,0,0,0,0,0,0]) == true &&
-              system.winner(1, [0,0,0,1,1,1,0,0,0]) == true &&
-              system.winner(1, [0,0,0,0,0,0,1,1,1]) == true &&
-              system.winner(1, [1,0,0,1,0,0,1,0,0]) == true &&
-              system.winner(1, [0,1,0,0,1,0,0,1,0]) == true &&
-              system.winner(1, [0,0,1,0,0,1,0,0,1]) == true &&
-              system.winner(1, [1,0,0,0,1,0,0,0,1]) == true &&
-              system.winner(1, [0,0,1,0,1,0,1,0,0]) == true
+      return  new Board([1,1,1,0,0,0,0,0,0]).winner(1) &&
+              new Board([0,0,0,1,1,1,0,0,0]).winner(1) &&
+              new Board([0,0,0,0,0,0,1,1,1]).winner(1) &&
+              new Board([1,0,0,1,0,0,1,0,0]).winner(1) &&
+              new Board([0,1,0,0,1,0,0,1,0]).winner(1) &&
+              new Board([0,0,1,0,0,1,0,0,1]).winner(1) &&
+              new Board([1,0,0,0,1,0,0,0,1]).winner(1) &&
+              new Board([0,0,1,0,1,0,1,0,0]).winner(1)
     }
     function testAllLosingBoards() {
-      return  system.loser(-1, [1,1,1,0,0,0,0,0,0]) == true &&
-              system.loser(-1, [0,0,0,1,1,1,0,0,0]) == true &&
-              system.loser(-1, [0,0,0,0,0,0,1,1,1]) == true &&
-              system.loser(-1, [1,0,0,1,0,0,1,0,0]) == true &&
-              system.loser(-1, [0,1,0,0,1,0,0,1,0]) == true &&
-              system.loser(-1, [0,0,1,0,0,1,0,0,1]) == true &&
-              system.loser(-1, [1,0,0,0,1,0,0,0,1]) == true &&
-              system.loser(-1, [0,0,1,0,1,0,1,0,0]) == true
+      return  new Board([1,1,1,0,0,0,0,0,0]).loser(-1) &&
+              new Board([0,0,0,1,1,1,0,0,0]).loser(-1) &&
+              new Board([0,0,0,0,0,0,1,1,1]).loser(-1) &&
+              new Board([1,0,0,1,0,0,1,0,0]).loser(-1) &&
+              new Board([0,1,0,0,1,0,0,1,0]).loser(-1) &&
+              new Board([0,0,1,0,0,1,0,0,1]).loser(-1) &&
+              new Board([1,0,0,0,1,0,0,0,1]).loser(-1) &&
+              new Board([0,0,1,0,1,0,1,0,0]).loser(-1)
     }
     function testOccupyReturnsFalseForOccupiedPositions() {
-      system.occupy(0)
-      system.occupy(1)
-      return !(system.occupy(0) || system.occupy(1) || !system.occupy(2))
+      system.getBoard().occupy(0)
+      system.getBoard().occupy(1)
+      return !(system.getBoard().occupy(0) || system.getBoard().occupy(1) || !system.getBoard().occupy(2))
     }
     function testSameArray(array1, array2) {
-      if (array1.length != array2.length) {
+      if (array1.length !== array2.length) {
         return false
       }
-      array1 = array1.sort(function(a,b) { return a-b })
-      array2 = array2.sort(function(a,b) { return a-b })
+      array1 = array1.sort(function(a,b) { return a - b })
+      array2 = array2.sort(function(a,b) { return a - b })
       for (var c = 0; c < array1.length; c++) {
-        if (array1[c] != array2[c]) {
+        if (array1[c] !== array2[c]) {
           return false
         }
-
       }
       return true
 
     }
     function testGetFreePositions() {
-      return testSameArray(system.getFreePositions([0,0,0,0,0,0,1,1,1]), [0,1,2,3,4,5]) &&
-        testSameArray(system.getFreePositions([1,0,0,0,0,0,0,0,0]), [1,2,3,4,5,6,7,8]) &&
-        testSameArray(system.getFreePositions([1,1,0,0,0,0,0,0,0]), [2,3,4,5,6,7,8]) &&
-        testSameArray(system.getFreePositions([1,1,1,0,0,0,0,0,0]), [3,4,5,6,7,8]) &&
-        testSameArray(system.getFreePositions([0,0,0,0,0,0,0,0,0]), [0,1,2,3,4,5,6,7,8])
+      return testSameArray(new Board([0,0,0,0,0,0,1,1,1]).getFreePositions(), [0,1,2,3,4,5]) &&
+        testSameArray(new Board([1,0,0,0,0,0,0,0,0]).getFreePositions(), [1,2,3,4,5,6,7,8]) &&
+        testSameArray(new Board([1,1,0,0,0,0,0,0,0]).getFreePositions(), [2,3,4,5,6,7,8]) &&
+        testSameArray(new Board([1,1,1,0,0,0,0,0,0]).getFreePositions(), [3,4,5,6,7,8]) &&
+        testSameArray(new Board([0,0,0,0,0,0,0,0,0]).getFreePositions(), [0,1,2,3,4,5,6,7,8])
     }
 
-    var tests = [testAllWinningBoards, testAllLosingBoards, testOccupyReturnsFalseForOccupiedPositions,testGetFreePositions ],
-        res
+    var tests = [
+      testAllWinningBoards,
+      testAllLosingBoards,
+      testOccupyReturnsFalseForOccupiedPositions,
+      testGetFreePositions
+    ]
+    var res
 
     for (var i = 0; i < tests.length; i++) {
       res = tests[i]()
-      $('#testOutput').append("<div class="+res.toString()+">" + tests[i].name.toString() + ": " + res + "</div>")
+      var output = document.getElementById('testOutput')
+      var ele = document.createElement('div')
+      ele.className = res
+      ele.innerText = tests[i].name + ': ' + res
+      output.appendChild(ele)
     }
 
   </script>

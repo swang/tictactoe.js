@@ -1,7 +1,7 @@
 {
   "name": "tictactoe.js",
   "version": "1.0.0",
-  "description": "TICTACTOE.JS\r ===============",
+  "description": "TICTACTOE.JS",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
