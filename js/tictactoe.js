@@ -3,9 +3,17 @@
 var main = (function() {
   var system = tictactoe.ai,
       draw = tictactoe.draw,
-      canvas = document.getElementById("the_board"),
-      context = canvas.getContext("2d"),
       gameOver = false
+
+  var canvas = document.getElementById('the_board')
+  if (!(canvas instanceof HTMLCanvasElement)) {
+    return
+  }
+
+  var context = canvas.getContext('2d')
+  if (!(context instanceof CanvasRenderingContext2D)) {
+    return
+  }
 
   document.addEventListener('DOMContentLoaded', function(event) {
     draw.setContext(context)
@@ -33,16 +41,16 @@ var main = (function() {
         draw.nought(location)
         if (system.winner(1)) {
 
-          draw.connectLine(system.winnerWhere(1), "#00ff00")
-          draw.stamp("YOU WIN", "#00ff00")
+          draw.connectLine(system.winnerWhere(1), '#00ff00')
+          draw.stamp('YOU WIN', '#00ff00')
           gameOver = true
         }
         else if (system.getFreePositions().length === 0) {
-          draw.stamp("TIE", "#00ffff")
+          draw.stamp('TIE', '#00ffff')
           gameOver = true
         }
 
-        if (whoseTurn == 1 && !system.winner(1) && !system.winner(-1)) {
+        if (whoseTurn === 1 && !system.winner(1) && !system.winner(-1)) {
           var res = system.alphaBetaSearch(system.getBoard(), -whoseTurn)
 
           // to test win scenario, create ai that randomly chooses a valid turn.
@@ -52,13 +60,13 @@ var main = (function() {
           draw.cross(res[2])
 
           if (system.winner(-1)) {
-            draw.connectLine(system.winnerWhere(-1), "#ff0000")
-            draw.stamp("YOU LOSE", "#ff0000")
+            draw.connectLine(system.winnerWhere(-1), '#ff0000')
+            draw.stamp('YOU LOSE', '#ff0000')
             gameOver = true
           }
         }
       }
     }
-
   })
+
 }())
