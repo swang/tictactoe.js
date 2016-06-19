@@ -9,11 +9,11 @@ At worst the AI will draw a tie against any opponent. However you can replace th
 
 To change this change the call in tictactoe.js from:
 
-system.alphaBetaSearch(system.board(),-whoseTurn ) 
+system.alphaBetaSearch(system.getBoard(), -whoseTurn)
 
 To this method.
 
-system.chooseRandom(system.board(),-whoseTurn ) 
+system.chooseRandom(system.getBoard(), -whoseTurn)
 
 TODO
 ------------

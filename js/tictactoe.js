@@ -63,7 +63,7 @@ var main = (function() {
           var res = system.alphaBetaSearch(system.getBoard(), -whoseTurn)
 
           // to test win scenario, create ai that randomly chooses a valid turn.
-          // var res = system.chooseRandom(system.board(), -whoseTurn )
+          // var res = system.chooseRandom(system.getBoard(), -whoseTurn)
 
           system.getBoard().occupy(res[2])
           draw.cross(res[2])

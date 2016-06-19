@@ -148,6 +148,7 @@ class Board {
       else if (count(row, -player) > 0 && count(row, player) === 0)  {
         score -= markScore[count(row, -player)]
       }
+
       col = [this.pos(r), this.pos(r + 3), this.pos(r + 6)]
       if (count(col, player) > 0 && count(col, -player) === 0) {
         score += markScore[count(col, player)]
