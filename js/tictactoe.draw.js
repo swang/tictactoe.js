@@ -73,10 +73,10 @@ class Draw {
   }
 
   cross(location: number) {
-    var context = this.context
-    var [row, col] = this.getPos(location)
-    var topLeftX = (col * 100),
-        topLeftY = (row * 100)
+    const context = this.context
+    const [row, col] = this.getPos(location)
+    const topLeftX = (col * 100)
+    const topLeftY = (row * 100)
 
     context.beginPath()
 
@@ -94,11 +94,11 @@ class Draw {
   }
 
   nought(location: number): void {
-    var context = this.context
-    var [row, col] = this.getPos(location)
-    var centerX = (col * 100) + 50,
-        centerY = (row * 100) + 50,
-        radius = 40
+    const context = this.context
+    const [row, col] = this.getPos(location)
+    const centerX = (col * 100) + 50
+    const centerY = (row * 100) + 50
+    const radius = 40
 
     context.beginPath()
     context.arc(centerX, centerY, radius, 0, 2 * Math.PI, false)
@@ -110,7 +110,8 @@ class Draw {
   }
 
   stamp(text, color) {
-    var context = this.context
+    const context = this.context
+
     context.save()
 
     context.rotate(-Math.PI * 2 / 12)
@@ -137,16 +138,17 @@ class Draw {
   }
 
   connectLine(where: Array<number>, color): void {
-    var context = this.context
+    const context = this.context
 
-    context.beginPath()
+    const [fromRow, fromCol] = this.getPos(where[0]),
+        [toRow, toCol] = this.getPos(where[1])
 
-    var [fromRow: number, fromCol: number] = this.getPos(where[0]),
-        [toRow: number, toCol: number] = this.getPos(where[1]),
-        modX1 = 0,
+    var modX1 = 0,
         modY1 = 0,
         modX2 = 0,
         modY2 = 0
+
+    context.beginPath()
 
     if (fromCol === toCol) {
       modX1 = 50

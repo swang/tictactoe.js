@@ -7,17 +7,16 @@ declare class tictactoe {
 }
 
 if (!tictactoe) { var tictactoe = {} }
-var main = (function() {
-  var system: any = tictactoe.ai,
-      draw = tictactoe.draw,
-      gameOver = false
+const main = (function() {
+  const system: any = tictactoe.ai
+  const draw = tictactoe.draw
 
-  var canvas = document.getElementById('the_board')
+  let canvas = document.getElementById('the_board')
   if (!(canvas instanceof HTMLCanvasElement)) {
     return
   }
 
-  var context = canvas.getContext('2d')
+  let context = canvas.getContext('2d')
   if (!(context instanceof CanvasRenderingContext2D)) {
     return
   }
@@ -28,14 +27,14 @@ var main = (function() {
     draw.newGameButton()
   })
 
-  canvas.addEventListener('click', function(e) {
-    var whoseTurn,
-        occupy,
-        // offsetX = !e.offsetX ? (e.pageX - this.offsetLeft) : e.offsetX,
-        // offsetY = !e.offsetY ? (e.pageY - this.offsetTop) : e.offsetY,
-        offsetX = e.offsetX,
-        offsetY = e.offsetY,
-        location = (Math.floor(offsetY / 100) * 3 + Math.floor(offsetX / 100))
+  canvas.addEventListener('click', (e) => {
+    let gameOver = false
+
+    // offsetX = !e.offsetX ? (e.pageX - this.offsetLeft) : e.offsetX,
+    // offsetY = !e.offsetY ? (e.pageY - this.offsetTop) : e.offsetY,
+    const offsetX = e.offsetX
+    const offsetY = e.offsetY
+    const location = (Math.floor(offsetY / 100) * 3 + Math.floor(offsetX / 100))
 
     if (offsetY > 300) {
       system.getBoard().clear()
@@ -44,8 +43,8 @@ var main = (function() {
     }
 
     else if (offsetY <= 300 && offsetX <= 300) {
-      whoseTurn = system.getBoard().toMove()
-      occupy = system.getBoard().occupy(location)
+      const whoseTurn = system.getBoard().toMove()
+      const occupy = system.getBoard().occupy(location)
       if (occupy && !gameOver) {
         draw.nought(location)
         if (system.getBoard().winner(1)) {
@@ -60,10 +59,9 @@ var main = (function() {
         }
 
         if (whoseTurn === 1 && !system.getBoard().winner(1) && !system.getBoard().winner(-1)) {
-          var res = system.alphaBetaSearch(system.getBoard(), -whoseTurn)
-
           // to test win scenario, create ai that randomly chooses a valid turn.
-          // var res = system.chooseRandom(system.getBoard(), -whoseTurn)
+          // let res = system.chooseRandom(system.getBoard(), -whoseTurn)
+          let res = system.alphaBetaSearch(system.getBoard(), -whoseTurn)
 
           system.getBoard().occupy(res[2])
           draw.cross(res[2])
@@ -77,5 +75,4 @@ var main = (function() {
       }
     }
   })
-
 }())

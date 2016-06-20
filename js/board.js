@@ -1,9 +1,9 @@
 'use strict';
 // @flow
 
-var count = function(arr: Array<number>, item: PlayerType) {
-  var cnt = 0
-  for (var c = 0; c < arr.length; c++) {
+const count = function(arr: Array<PlayerType>, item: PlayerType) {
+  let cnt = 0
+  for (let c = 0; c < arr.length; c++) {
     if (arr[c] == item) {
       cnt++
     }
@@ -43,8 +43,8 @@ class Board {
   }
 
   getFreePositions(): Array<number> {
-    var moves = []
-    var _board = this.board
+    let moves = []
+    const _board = this.board
     for (var m = 0; m < _board.length; m++) {
       if (_board[m] === 0) {
         moves.push(m)
@@ -85,8 +85,8 @@ class Board {
   }
 
   winner(player: PlayerType): boolean {
-    var [start, end] = this.winnerWhere(player)
-    return (start !== -1 && start !== -1)
+    const [start, end] = this.winnerWhere(player)
+    return (start !== -1 && end !== -1)
   }
 
   loser(player: PlayerType): boolean {
@@ -95,12 +95,12 @@ class Board {
 
   winnerWhere(player: PlayerType): Array<number> {
 
-    var diag1: Array<number>,
+    let diag1: Array<number>,
         diag2: Array<number>,
         row: Array<number>,
         col: Array<number>
 
-    for (var r = 0; r < 3; r++) {
+    for (let r = 0; r < 3; r++) {
       row = this.board.slice(r * 3, (r * 3) + 3)
 
       if (count(row, player) === 3) {
@@ -108,8 +108,8 @@ class Board {
       }
     }
 
-    for (var c = 0; c < 3; c++) {
-      var col = [this.pos(c), this.pos(c + 3), this.pos(c + 6)]
+    for (let c = 0; c < 3; c++) {
+      let col = [this.pos(c), this.pos(c + 3), this.pos(c + 6)]
       if (count(col, player) === 3) {
         return [c, c + 6]
       }
@@ -127,20 +127,17 @@ class Board {
   }
 
   utility(player: PlayerType): number {
-    var board = this.board
+    const board = this.board
     // 0 1 2
     // 3 4 5
     // 6 7 8
-    var score = 0,
+    let score = 0,
         markScore = [0, 1, 10, 1000],
         diag1 = [this.pos(0), this.pos(4), this.pos(8)],
-        diag2 = [this.pos(2), this.pos(4), this.pos(6)],
-        row,
-        col
+        diag2 = [this.pos(2), this.pos(4), this.pos(6)]
 
     for (var r = 0; r < 3 ; r++) {
-
-      row = board.slice(r * 3, (r * 3) + 3)
+      let row = board.slice(r * 3, (r * 3) + 3)
 
       if (count(row, player) > 0 && count(row, -player) === 0)  {
         score += markScore[count(row, player)]
@@ -149,7 +146,8 @@ class Board {
         score -= markScore[count(row, -player)]
       }
 
-      col = [this.pos(r), this.pos(r + 3), this.pos(r + 6)]
+      let col = [this.pos(r), this.pos(r + 3), this.pos(r + 6)]
+
       if (count(col, player) > 0 && count(col, -player) === 0) {
         score += markScore[count(col, player)]
       }

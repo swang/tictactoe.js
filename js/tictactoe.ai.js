@@ -1,20 +1,6 @@
 'use strict';
 // @flow
 
-var tictactoe
-
-if (!tictactoe) tictactoe = {}
-
-var count = function(arr: Array<number>, item: PlayerType) {
-  var cnt = 0
-  for (var c = 0; c < arr.length; c++) {
-    if (arr[c] == item) {
-      cnt++
-    }
-  }
-  return cnt
-}
-
 class AI {
   board: Board;
 
@@ -27,22 +13,21 @@ class AI {
   }
 
   chooseRandom(board: Board, player: PlayerType) {
-    var possMoves: Array<number> = board.getFreePositions(),
+    const possMoves: Array<number> = board.getFreePositions(),
         result = possMoves[Math.floor(possMoves.length * Math.random())]
     return [player, 1, result]
   }
 
   alphaBetaSearch(board: Board, player: PlayerType) {
-    var biggestValue = -Infinity,
-        possMoves: Array<number> = board.getFreePositions(),
-        result,
-        tryMove,
-        abs
+    let biggestValue = -Infinity,
+        result = biggestValue
+
+    const possMoves: Array<number> = board.getFreePositions()
 
     for (var i = 0; i < possMoves.length; i++) {
-      var newBoard = new Board(board)
+      let newBoard = new Board(board)
+      let tryMove = possMoves[i]
 
-      tryMove = possMoves[i]
       newBoard.put(player, tryMove)
 
       if (newBoard.winner(player)) {
@@ -52,7 +37,7 @@ class AI {
         return [player, -1000, tryMove]
       }
 
-      abs = -this.negaMax(newBoard, 4/*ply*/, -Infinity, Infinity, -player)
+      let abs = -this.negaMax(newBoard, 4/*ply*/, -Infinity, Infinity, -player)
 
       if (abs > biggestValue) {
         biggestValue = abs
@@ -69,17 +54,15 @@ class AI {
       return board.utility(player)
     }
 
-    var possMoves = board.getFreePositions(),
-        tryMove,
-        val
+    const possMoves = board.getFreePositions()
 
-    for (var i = 0; i < possMoves.length; i++) {
-      var newBoard = new Board(board)
+    for (let i = 0; i < possMoves.length; i++) {
+      let newBoard = new Board(board)
+      let tryMove = possMoves[i]
 
-      tryMove = possMoves[i]
       newBoard.put(player, tryMove)
 
-      val = -this.negaMax(newBoard, depth - 1, -beta, -alpha, -player)
+      let val = -this.negaMax(newBoard, depth - 1, -beta, -alpha, -player)
 
       if (val >= beta) {
         return val
