@@ -12,13 +12,13 @@ class AI {
     return this.board
   }
 
-  chooseRandom(board: Board, player: PlayerType) {
+  chooseRandom(board: Board, player: PlayerType): [PlayerType, number, number, void] {
     const possMoves: Array<number> = board.getFreePositions(),
         result = possMoves[Math.floor(possMoves.length * Math.random())]
     return [player, 1, result]
   }
 
-  alphaBetaSearch(board: Board, player: PlayerType) {
+  alphaBetaSearch(board: Board, player: PlayerType): [PlayerType, number, number, void] {
     let biggestValue = -Infinity,
         result = biggestValue
 
@@ -48,7 +48,7 @@ class AI {
     return [player, biggestValue, result]
   }
 
-  negaMax(board: Board, depth, alpha, beta, player: PlayerType) {
+  negaMax(board: Board, depth: number, alpha: number, beta: number, player: PlayerType): number {
 
     if (board.endOfGame() || depth === 0 || board.winner(player) || board.loser(player)) {
       return board.utility(player)
@@ -75,4 +75,3 @@ class AI {
   }
 
 }
-tictactoe.ai = new AI()

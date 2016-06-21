@@ -1,10 +1,6 @@
 'use strict';
 // @flow
 
-var tictactoe
-
-if (!tictactoe) tictactoe = {}
-
 class Draw {
   canvas: HTMLCanvasElement;
   context: CanvasRenderingContext2D;
@@ -68,11 +64,11 @@ class Draw {
     context.fillText('NEW GAME', 150, 320)
   }
 
-  getPos(location: number): Array<number> {
+  getPos(location: number): Tuple {
     return [Math.floor(location / 3), location % 3]
   }
 
-  cross(location: number) {
+  cross(location: number): void {
     const context = this.context
     const [row, col] = this.getPos(location)
     const topLeftX = (col * 100)
@@ -109,7 +105,7 @@ class Draw {
     context.stroke()
   }
 
-  stamp(text, color) {
+  stamp(text: string, color: string): void {
     const context = this.context
 
     context.save()
@@ -137,7 +133,7 @@ class Draw {
     context.restore()
   }
 
-  connectLine(where: Array<number>, color): void {
+  connectLine(where: Tuple, color: string): void {
     const context = this.context
 
     const [fromRow, fromCol] = this.getPos(where[0]),
@@ -162,7 +158,7 @@ class Draw {
       modY1 = 50
       modY2 = 50
     }
-    if ((fromRow != toRow) && (fromCol != toCol)) {
+    if ((fromRow !== toRow) && (fromCol !== toCol)) {
       modX1 = (fromRow === fromCol && toRow === toCol) ? 20 : 80
       modX2 = (fromRow === fromCol && toRow === toCol) ? 80 : 20
 
@@ -182,11 +178,10 @@ class Draw {
 
   }
 
-  clear() {
+  clear(): void {
     this.context.clearRect(0, 0, 300, 400)
     this.board()
     this.newGameButton()
   }
 
 }
-tictactoe.draw = new Draw()

@@ -2,14 +2,13 @@
 // NOT YET READY for @_flow
 
 declare class tictactoe {
-  static ai: any;
-  static draw: any;
+  static ai: AI;
+  static draw: Draw;
 }
 
-if (!tictactoe) { var tictactoe = {} }
 const main = (function() {
-  const system: any = tictactoe.ai
-  const draw = tictactoe.draw
+  const system = new AI()
+  const draw = new Draw()
 
   let canvas = document.getElementById('the_board')
   if (!(canvas instanceof HTMLCanvasElement)) {
@@ -21,7 +20,7 @@ const main = (function() {
     return
   }
 
-  document.addEventListener('DOMContentLoaded', function(event) {
+  document.addEventListener('DOMContentLoaded', () => {
     draw.setContext(context)
     draw.board()
     draw.newGameButton()

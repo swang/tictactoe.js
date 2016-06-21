@@ -1,13 +1,14 @@
-type BoardType = Array<number>
+type BoardType = Array<PlayerType>
 
 declare class Board {
   constructor(board?: BoardType | Board): void;
-  put(piece: number, pos: number): void;
+  add(c: BoardPos, val: number): BoardPos;
+  put(piece: PlayerType, pos: number): void;
   getFreePositions(): Array<number>;
   length: number;
   clear(): void;
   board: BoardType;
-  pos(n: number): number;
+  pos(n: BoardPos): PlayerType;
   endOfGame(): boolean;
   toMove(): PlayerType;
   occupy(location: number): boolean;
