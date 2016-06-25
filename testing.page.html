@@ -27,24 +27,24 @@
         draw = new Draw()
     function testAllWinningBoards() {
 
-      return  new Board([1,1,1,0,0,0,0,0,0]).winner(1) &&
-              new Board([0,0,0,1,1,1,0,0,0]).winner(1) &&
-              new Board([0,0,0,0,0,0,1,1,1]).winner(1) &&
-              new Board([1,0,0,1,0,0,1,0,0]).winner(1) &&
-              new Board([0,1,0,0,1,0,0,1,0]).winner(1) &&
-              new Board([0,0,1,0,0,1,0,0,1]).winner(1) &&
-              new Board([1,0,0,0,1,0,0,0,1]).winner(1) &&
-              new Board([0,0,1,0,1,0,1,0,0]).winner(1)
+      return  new Board([1,1,1,0,0,0,0,0,0]).isWinner(1) &&
+              new Board([0,0,0,1,1,1,0,0,0]).isWinner(1) &&
+              new Board([0,0,0,0,0,0,1,1,1]).isWinner(1) &&
+              new Board([1,0,0,1,0,0,1,0,0]).isWinner(1) &&
+              new Board([0,1,0,0,1,0,0,1,0]).isWinner(1) &&
+              new Board([0,0,1,0,0,1,0,0,1]).isWinner(1) &&
+              new Board([1,0,0,0,1,0,0,0,1]).isWinner(1) &&
+              new Board([0,0,1,0,1,0,1,0,0]).isWinner(1)
     }
     function testAllLosingBoards() {
-      return  new Board([1,1,1,0,0,0,0,0,0]).loser(-1) &&
-              new Board([0,0,0,1,1,1,0,0,0]).loser(-1) &&
-              new Board([0,0,0,0,0,0,1,1,1]).loser(-1) &&
-              new Board([1,0,0,1,0,0,1,0,0]).loser(-1) &&
-              new Board([0,1,0,0,1,0,0,1,0]).loser(-1) &&
-              new Board([0,0,1,0,0,1,0,0,1]).loser(-1) &&
-              new Board([1,0,0,0,1,0,0,0,1]).loser(-1) &&
-              new Board([0,0,1,0,1,0,1,0,0]).loser(-1)
+      return  new Board([1,1,1,0,0,0,0,0,0]).isLoser(-1) &&
+              new Board([0,0,0,1,1,1,0,0,0]).isLoser(-1) &&
+              new Board([0,0,0,0,0,0,1,1,1]).isLoser(-1) &&
+              new Board([1,0,0,1,0,0,1,0,0]).isLoser(-1) &&
+              new Board([0,1,0,0,1,0,0,1,0]).isLoser(-1) &&
+              new Board([0,0,1,0,0,1,0,0,1]).isLoser(-1) &&
+              new Board([1,0,0,0,1,0,0,0,1]).isLoser(-1) &&
+              new Board([0,0,1,0,1,0,1,0,0]).isLoser(-1)
     }
     function testOccupyReturnsFalseForOccupiedPositions() {
       system.getBoard().occupy(0)
