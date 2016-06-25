@@ -113,7 +113,7 @@ class Board {
       }
     }
 
-    for (let c: BoardPos = 0; c < 3; this.add(c, 1)) {
+    for (let c: BoardPos = 0; c < 3; c = this.add(c, 1)) {
       let col = [this.pos(c), this.pos(this.add(c, 3)), this.pos(this.add(c, 6))]
       if (count(col, player) === 3) {
         return [c, c + 6]
@@ -141,7 +141,7 @@ class Board {
         diag1 = [this.pos(0), this.pos(4), this.pos(8)],
         diag2 = [this.pos(2), this.pos(4), this.pos(6)]
 
-    for (let r: BoardPos = 0; r < 3 ; this.add(r, 1)) {
+    for (let r: BoardPos = 0; r < 3 ; r = this.add(r, 1)) {
       let row = board.slice(r * 3, (r * 3) + 3)
 
       if (count(row, player) > 0 && count(row, -player) === 0)  {
