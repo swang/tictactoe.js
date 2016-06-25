@@ -1,4 +1,4 @@
-TICTACTOE.JS
+TICTACTOE
 ===============
 
 Plays a game of tic-tac-toe using Canvas and Javascript. AI being used is a negamax variant of minimax with alpha-beta pruning.
@@ -9,11 +9,15 @@ At worst the AI will draw a tie against any opponent. However you can replace th
 
 To change this change the call in tictactoe.js from:
 
+```js
 system.alphaBetaSearch(system.getBoard(), -whoseTurn)
+```
 
 To this method.
 
+```js
 system.chooseRandom(system.getBoard(), -whoseTurn)
+```
 
 TODO
 ------------
