@@ -7,16 +7,16 @@ AI Algorithm
 ------------
 At worst the AI will draw a tie against any opponent. However you can replace the version of the AI using negamax alpha-beta pruning with an AI that just randomly picks an open space.
 
-To change this change the call in tictactoe.js from:
+To change this instead of declaring system to be of an instance of AlphaBetaAIfrom:
 
 ```js
-system.alphaBetaSearch(system.getBoard(), -whoseTurn)
+const system = new AlphaBetaAI()
 ```
 
-To this method.
+You change it to an instance of RandomAI()
 
 ```js
-system.chooseRandom(system.getBoard(), -whoseTurn)
+const system = new RandomAI()
 ```
 
 TODO

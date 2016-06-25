@@ -7,7 +7,9 @@ declare class tictactoe {
 }
 
 const main = (function() {
-  const system = new AI()
+  // to test win scenario, use ai that randomly chooses a valid turn.
+  // const system = new RandomAI()
+  const system = new AlphaBetaAI()
   const draw = new Draw()
 
   let canvas = document.getElementById('the_board')
@@ -58,11 +60,9 @@ const main = (function() {
         }
 
         if (whoseTurn === 1 && !system.getBoard().isWinner(1) && !system.getBoard().isWinner(-1)) {
-          // to test win scenario, create ai that randomly chooses a valid turn.
-          // let res = system.chooseRandom(system.getBoard(), -whoseTurn)
-          let res = system.alphaBetaSearch(system.getBoard(), -whoseTurn)
-
+          let res = system.choose(-whoseTurn)
           system.getBoard().occupy(res[2])
+
           draw.X(res[2])
 
           if (system.getBoard().isWinner(-1)) {

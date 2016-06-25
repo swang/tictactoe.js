@@ -12,15 +12,25 @@ class AI {
     return this.board
   }
 
-  chooseRandom(board: Board, player: PlayerType): [PlayerType, number, number, void] {
+  choose(player: PlayerType) {
+  }
+}
+
+class RandomAI extends AI {
+  choose(player: PlayerType): [PlayerType, number, BoardPos, void] {
+    const board = this.getBoard()
     const possMoves: Array<BoardPos> = board.getFreePositions()
     const result = possMoves[Math.floor(Math.random() * possMoves.length)]
     return [player, 1, result]
   }
+}
 
-  alphaBetaSearch(board: Board, player: PlayerType): [PlayerType, number, number, void] {
-    let biggestValue = -Infinity,
-        result = biggestValue
+class AlphaBetaAI extends AI {
+
+  choose(player: PlayerType): [PlayerType, number, BoardPos, void] {
+    let max = -Infinity,
+        result = 0,
+        board = this.getBoard()
 
     const possMoves: Array<BoardPos> = board.getFreePositions()
 
@@ -29,23 +39,14 @@ class AI {
       let tryMove = possMoves[i]
 
       newBoard.put(player, tryMove)
+      let val = -this.negaMax(newBoard, 4/*ply*/, -Infinity, Infinity, -player)
 
-      if (newBoard.isWinner(player)) {
-        return [player, 1000, tryMove]
-      }
-      if (newBoard.isLoser(player)) {
-        return [player, -1000, tryMove]
-      }
-
-      let abs = -this.negaMax(newBoard, 4/*ply*/, -Infinity, Infinity, -player)
-
-      if (abs > biggestValue) {
-        biggestValue = abs
+      if (val > max) {
+        max = val
         result = tryMove
       }
-
     }
-    return [player, biggestValue, result]
+    return [player, max, result]
   }
 
   negaMax(board: Board, depth: number, alpha: number, beta: number, player: PlayerType): number {
