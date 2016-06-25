@@ -23,8 +23,8 @@
   <script src="build/tictactoe.js"></script>
   <script>
 
-    var system = tictactoe.ai,
-        draw = tictactoe.draw
+    var system = new AI(),
+        draw = new Draw()
     function testAllWinningBoards() {
 
       return  new Board([1,1,1,0,0,0,0,0,0]).winner(1) &&
@@ -55,8 +55,8 @@
       if (array1.length !== array2.length) {
         return false
       }
-      array1 = array1.sort(function(a,b) { return a - b })
-      array2 = array2.sort(function(a,b) { return a - b })
+      array1 = array1.sort(function(a, b) { return a - b })
+      array2 = array2.sort(function(a, b) { return a - b })
       for (var c = 0; c < array1.length; c++) {
         if (array1[c] !== array2[c]) {
           return false
@@ -89,6 +89,5 @@
       ele.innerText = tests[i].name + ': ' + res
       output.appendChild(ele)
     }
-
   </script>
 </html>

@@ -42,13 +42,13 @@ const main = (function() {
     }
 
     else if (offsetY <= 300 && offsetX <= 300) {
-      const whoseTurn = system.getBoard().toMove()
+      const whoseTurn = system.getBoard().getTurn()
       const occupy = system.getBoard().occupy(location)
       if (occupy && !gameOver) {
-        draw.nought(location)
-        if (system.getBoard().winner(1)) {
+        draw.O(location)
+        if (system.getBoard().isWinner(1)) {
 
-          draw.connectLine(system.getBoard().winnerWhere(1), '#00ff00')
+          draw.connectLine(system.getBoard().winnerPos(1), '#00ff00')
           draw.stamp('YOU WIN', '#00ff00')
           gameOver = true
         }
@@ -57,16 +57,16 @@ const main = (function() {
           gameOver = true
         }
 
-        if (whoseTurn === 1 && !system.getBoard().winner(1) && !system.getBoard().winner(-1)) {
+        if (whoseTurn === 1 && !system.getBoard().isWinner(1) && !system.getBoard().isWinner(-1)) {
           // to test win scenario, create ai that randomly chooses a valid turn.
           // let res = system.chooseRandom(system.getBoard(), -whoseTurn)
           let res = system.alphaBetaSearch(system.getBoard(), -whoseTurn)
 
           system.getBoard().occupy(res[2])
-          draw.cross(res[2])
+          draw.X(res[2])
 
-          if (system.getBoard().winner(-1)) {
-            draw.connectLine(system.getBoard().winnerWhere(-1), '#ff0000')
+          if (system.getBoard().isWinner(-1)) {
+            draw.connectLine(system.getBoard().winnerPos(-1), '#ff0000')
             draw.stamp('YOU LOSE', '#ff0000')
             gameOver = true
           }

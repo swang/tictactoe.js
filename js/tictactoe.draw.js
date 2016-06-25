@@ -68,7 +68,7 @@ class Draw {
     return [Math.floor(location / 3), location % 3]
   }
 
-  cross(location: number): void {
+  X(location: number): void {
     const context = this.context
     const [row, col] = this.getPos(location)
     const topLeftX = (col * 100)
@@ -89,7 +89,7 @@ class Draw {
     context.stroke()
   }
 
-  nought(location: number): void {
+  O(location: number): void {
     const context = this.context
     const [row, col] = this.getPos(location)
     const centerX = (col * 100) + 50

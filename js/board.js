@@ -30,7 +30,9 @@ class Board {
     }
   }
 
-  add(c: BoardPos, val: number): BoardPos { return ((c + val): any) }
+  add(c: BoardPos, val: number): BoardPos {
+    return ((c + val): any)
+  }
 
   put(piece: PlayerType, pos: number): void {
     this.board[pos] = piece
@@ -44,12 +46,13 @@ class Board {
     return this.board[n]
   }
 
-  getFreePositions(): Array<number> {
-    let moves = []
+  getFreePositions(): Array<BoardPos> {
+    let moves: Array<BoardPos> = []
     const _board = this.board
-    for (var m = 0; m < _board.length; m++) {
+    for (let m: BoardPos = 0; m < _board.length; m = this.add(m, 1)) {
       if (_board[m] === 0) {
-        moves.push(m)
+
+        moves.push(this.add(m, 0))
       }
     }
     return moves
@@ -63,7 +66,7 @@ class Board {
     this.board = [0, 0, 0, 0, 0, 0, 0, 0, 0]
   }
 
-  toMove(): PlayerType {
+  getTurn(): PlayerType {
     var players = [0, 0]
 
     for (var b = 0; b < this.board.length; b++) {
@@ -80,25 +83,25 @@ class Board {
     return (players[0] <= players[1] ? 1 : -1)
   }
 
-  occupy(location: number): boolean {
+  occupy(location: BoardPos): boolean {
     if (this.getFreePositions().indexOf(location) !== -1) {
-      this.put(this.toMove(), location)
+      this.put(this.getTurn(), location)
 
       return true
     }
     return false
   }
 
-  winner(player: PlayerType): boolean {
-    const [start, end] = this.winnerWhere(player)
+  isWinner(player: PlayerType): boolean {
+    const [start, end] = this.winnerPos(player)
     return (start !== -1 && end !== -1)
   }
 
-  loser(player: PlayerType): boolean {
-    return this.winner(-player)
+  isLoser(player: PlayerType): boolean {
+    return this.isWinner(-player)
   }
 
-  winnerWhere(player: PlayerType): Tuple {
+  winnerPos(player: PlayerType): Tuple {
 
     let diag1: Array<PlayerType>,
         diag2: Array<PlayerType>,
@@ -131,7 +134,7 @@ class Board {
     return [-1, -1]
   }
 
-  utility(player: PlayerType): number {
+  getScore(player: PlayerType): number {
     const board = this.board
     // 0 1 2
     // 3 4 5

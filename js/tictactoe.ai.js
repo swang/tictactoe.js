@@ -13,8 +13,8 @@ class AI {
   }
 
   chooseRandom(board: Board, player: PlayerType): [PlayerType, number, number, void] {
-    const possMoves: Array<number> = board.getFreePositions(),
-        result = possMoves[Math.floor(possMoves.length * Math.random())]
+    const possMoves: Array<BoardPos> = board.getFreePositions()
+    const result = possMoves[Math.floor(Math.random() * possMoves.length)]
     return [player, 1, result]
   }
 
@@ -22,7 +22,7 @@ class AI {
     let biggestValue = -Infinity,
         result = biggestValue
 
-    const possMoves: Array<number> = board.getFreePositions()
+    const possMoves: Array<BoardPos> = board.getFreePositions()
 
     for (var i = 0; i < possMoves.length; i++) {
       let newBoard = new Board(board)
@@ -30,10 +30,10 @@ class AI {
 
       newBoard.put(player, tryMove)
 
-      if (newBoard.winner(player)) {
+      if (newBoard.isWinner(player)) {
         return [player, 1000, tryMove]
       }
-      if (newBoard.loser(player)) {
+      if (newBoard.isLoser(player)) {
         return [player, -1000, tryMove]
       }
 
@@ -50,8 +50,8 @@ class AI {
 
   negaMax(board: Board, depth: number, alpha: number, beta: number, player: PlayerType): number {
 
-    if (board.endOfGame() || depth === 0 || board.winner(player) || board.loser(player)) {
-      return board.utility(player)
+    if (board.endOfGame() || depth === 0 || board.isWinner(player) || board.isLoser(player)) {
+      return board.getScore(player)
     }
 
     const possMoves = board.getFreePositions()

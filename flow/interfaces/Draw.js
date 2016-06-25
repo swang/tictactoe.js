@@ -6,8 +6,8 @@ declare class Draw {
   board(): void;
   newGameButton(): void;
   getPos(location: number): Tuple;
-  cross(location: number): void;
-  nought(location: number): void;
+  X(location: number): void;
+  O(location: number): void;
   stamp(text: string, color: string): void;
   connectLine(where: Tuple, color: string): void;
   clear(): void;
