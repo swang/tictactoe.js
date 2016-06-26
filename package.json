@@ -4,9 +4,10 @@
   "description": "TICTACTOE.JS",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "./node_modules/.bin/tape tests/*.js",
     "flow": "flow; test $? -eq 0 -o $? -eq 2",
-    "build": "npm run flow && babel --plugins transform-flow-strip-types ./js --out-dir=./build"
+    "build": "npm run flow && npm run compile && npm test",
+    "compile": "babel --plugins transform-flow-strip-types ./js --out-dir=./build"
   },
   "repository": {
     "type": "git",
@@ -19,6 +20,7 @@
   },
   "homepage": "https://github.com/swang/tictactoe.js#readme",
   "devDependencies": {
-    "flow-bin": "^0.26.0"
+    "flow-bin": "^0.26.0",
+    "tape": "^4.6.0"
   }
 }

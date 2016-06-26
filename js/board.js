@@ -38,7 +38,7 @@ class Board {
     this.board[pos] = piece
   }
 
-  get length() {
+  get length(): number {
     return this.board.length
   }
 
@@ -178,3 +178,7 @@ class Board {
     return score
   }
 }
+
+try {
+  module.exports = Board;
+} catch (e) {}
