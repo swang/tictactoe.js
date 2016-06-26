@@ -20,6 +20,7 @@
   },
   "homepage": "https://github.com/swang/tictactoe.js#readme",
   "devDependencies": {
+    "babel-plugin-transform-flow-strip-types": "^6.8.0",
     "flow-bin": "^0.26.0",
     "tape": "^4.6.0"
   }
