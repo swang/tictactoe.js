@@ -4,10 +4,10 @@
   "description": "TICTACTOE.JS",
   "main": "index.js",
   "scripts": {
-    "test": "./node_modules/.bin/tape tests/*.js",
+    "test": "./node_modules/.bin/tape -r babel-register tests/*.js",
     "flow": "flow; test $? -eq 0 -o $? -eq 2",
-    "build": "npm run flow && npm run compile && npm test",
-    "compile": "babel --plugins transform-flow-strip-types ./js --out-dir=./build"
+    "build": "npm run flow && npm run compile && npm test && webpack",
+    "compile": "babel ./js --out-dir=./build"
   },
   "repository": {
     "type": "git",
@@ -20,8 +20,18 @@
   },
   "homepage": "https://github.com/swang/tictactoe.js#readme",
   "devDependencies": {
+    "babel-core": "^6.10.4",
+    "babel-loader": "^6.2.4",
+    "babel-plugin-transform-class-properties": "^6.11.5",
     "babel-plugin-transform-flow-strip-types": "^6.8.0",
-    "flow-bin": "^0.26.0",
-    "tape": "^4.6.0"
+    "babel-preset-es2015": "^6.13.2",
+    "flow-bin": "^0.31.1",
+    "tape": "^4.6.0",
+    "webpack": "^1.13.1"
+  },
+  "babel": {
+    "plugins": ["transform-flow-strip-types", "transform-class-properties"],
+    "presets": ["es2015"]
   }
+
 }
