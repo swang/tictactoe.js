@@ -1,6 +1,9 @@
 'use strict';
 // @flow
 
+const width = 450
+const colW = width/3
+
 class Draw {
   canvas: HTMLCanvasElement;
   context: CanvasRenderingContext2D;
@@ -24,17 +27,17 @@ class Draw {
     context.lineWidth = 5
     context.strokeStyle = 'black'
 
-    context.moveTo(100, 0)
-    context.lineTo(100, 300)
+    context.moveTo(colW, 0);
+    context.lineTo(colW, width);
 
-    context.moveTo(200, 0)
-    context.lineTo(200, 300)
+    context.moveTo(colW * 2, 0);
+    context.lineTo(colW * 2, width);
 
-    context.moveTo(0, 100)
-    context.lineTo(300, 100)
+    context.moveTo(0, colW);
+    context.lineTo(width, colW);
 
-    context.moveTo(0, 200)
-    context.lineTo(300, 200)
+    context.moveTo(0, colW * 2);
+    context.lineTo(width, colW * 2);
 
     context.stroke()
 
@@ -45,10 +48,12 @@ class Draw {
   newGameButton(): void {
     var context = this.context
     context.beginPath()
-    context.rect(5, 310, 290, 80)
+
+    context.rect(5, width + 10, width - 10, 600 - width - 20);
+
     context.fillStyle = '#39e42d'
     context.fill()
-    context.lineWidth = 5
+    context.lineWidth = 10
     context.strokeStyle = 'black'
     context.stroke()
 
@@ -59,9 +64,9 @@ class Draw {
 
     context.fillStyle = '#ffffff'
     context.strokeStyle = '#000000'
-    context.font = '36pt Helvetica'
-    context.strokeText('NEW GAME', 150, 320)
-    context.fillText('NEW GAME', 150, 320)
+    context.font = '56pt Helvetica'
+    // context.strokeText('NEW GAME', width/2, width + 30)
+    context.fillText('NEW GAME', width/2, width + 30)
   }
 
   getPos(location: number): Tuple {
@@ -71,37 +76,39 @@ class Draw {
   X(location: number): void {
     const context = this.context
     const [row, col] = this.getPos(location)
-    const topLeftX = (col * 100)
-    const topLeftY = (row * 100)
+    const topLeftX = (col * colW)
+    const topLeftY = (row * colW)
+    const pad = 20
+    const rpad = colW - pad
 
     context.beginPath()
 
-    context.moveTo(topLeftX + 20, topLeftY + 20)
-    context.lineTo(topLeftX + 80, topLeftY + 80)
+    context.moveTo(topLeftX + pad, topLeftY + pad)
+    context.lineTo(topLeftX + rpad, topLeftY + rpad)
 
-    context.moveTo(topLeftX + 80, topLeftY + 20)
-    context.lineTo(topLeftX + 20, topLeftY + 80)
+    context.moveTo(topLeftX + rpad, topLeftY + pad)
+    context.lineTo(topLeftX + pad, topLeftY + rpad)
 
     context.closePath()
 
-    context.lineWidth = 5
-    context.strokeStyle = 'black'
+    context.lineWidth = 20
+    context.strokeStyle = 'blue'
     context.stroke()
   }
 
   O(location: number): void {
     const context = this.context
     const [row, col] = this.getPos(location)
-    const centerX = (col * 100) + 50
-    const centerY = (row * 100) + 50
-    const radius = 40
+    const centerX = (col * colW) + (colW/2)
+    const centerY = (row * colW) + (colW/2)
+    const radius = (colW/2) - 20
 
     context.beginPath()
     context.arc(centerX, centerY, radius, 0, 2 * Math.PI, false)
     context.closePath()
 
-    context.lineWidth = 5
-    context.strokeStyle = 'black'
+    context.lineWidth = 20
+    context.strokeStyle = 'red'
     context.stroke()
   }
 
@@ -112,8 +119,11 @@ class Draw {
 
     context.rotate(-Math.PI * 2 / 12)
     context.translate(57, 190)
+
     context.beginPath()
-    context.rect(-150, -20, 290, 80)
+    context.rect(-170, 80, 400, 100)
+
+    // context.rect(-150, -20, 290, 80)
     context.fillStyle = 'rgba(255, 255, 255, 0.75)'
     context.fill()
     context.lineWidth = 5
@@ -126,9 +136,9 @@ class Draw {
 
     context.fillStyle = '#ffffff'
     context.strokeStyle = color
-    context.font = '36pt Helvetica'
-    context.strokeText(text, 0, -10)
-    context.fillText(text, 0, -10)
+    context.font = '55pt Helvetica'
+    context.strokeText(text, 30, 90)
+    context.fillText(text, 30, 90)
 
     context.restore()
   }
@@ -144,34 +154,37 @@ class Draw {
         modX2 = 0,
         modY2 = 0
 
+    var pad = 20
+    var rpad = (colW - pad)
+
     context.beginPath()
 
     if (fromCol === toCol) {
-      modX1 = 50
-      modX2 = 50
-      modY1 = 20
-      modY2 = 100 - modY1
+      modX1 = colW/2
+      modX2 = colW/2
+      modY1 = pad
+      modY2 = colW - modY1
     }
     if (fromRow === toRow) {
-      modX1 = 20
-      modX2 = 100 - modX1
-      modY1 = 50
-      modY2 = 50
+      modX1 = pad
+      modX2 = colW - modX1
+      modY1 = colW/2
+      modY2 = colW/2
     }
     if ((fromRow !== toRow) && (fromCol !== toCol)) {
-      modX1 = (fromRow === fromCol && toRow === toCol) ? 20 : 80
-      modX2 = (fromRow === fromCol && toRow === toCol) ? 80 : 20
+      modX1 = (fromRow === fromCol && toRow === toCol) ? pad : rpad
+      modX2 = (fromRow === fromCol && toRow === toCol) ? rpad : pad
 
-      modY1 = 20
-      modY2 = 80
+      modY1 = pad
+      modY2 = rpad
     }
 
-    context.moveTo(fromCol * 100 + modX1, fromRow * 100 + modY1)
-    context.lineTo(toCol * 100 + modX2 , toRow * 100  + modY2)
+    context.moveTo(fromCol * colW + modX1, fromRow * colW + modY1)
+    context.lineTo(toCol * colW + modX2 , toRow * colW + modY2)
     context.lineCap = 'round'
     context.closePath()
 
-    context.lineWidth = 15
+    context.lineWidth = 40
     context.strokeStyle = color
 
     context.stroke()
@@ -179,9 +192,11 @@ class Draw {
   }
 
   clear(): void {
-    this.context.clearRect(0, 0, 300, 400)
+    this.context.clearRect(0, 0, 450, 600)
     this.board()
     this.newGameButton()
   }
 
 }
+
+module.exports = Draw

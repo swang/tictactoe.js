@@ -1,10 +1,14 @@
 'use strict';
 // NOT YET READY for @_flow
+const AI = require('./tictactoe.ai.js')
+const Draw = require('./tictactoe.draw.js')
 
 declare class tictactoe {
   static ai: AI;
   static draw: Draw;
 }
+
+const AlphaBetaAI = AI.AlphaBetaAI
 
 const main = (function() {
   // to test win scenario, use ai that randomly chooses a valid turn.
@@ -28,24 +32,27 @@ const main = (function() {
     draw.newGameButton()
   })
 
+  function getOffset(x: any, y: any): any {
+    return Math.floor(y / (450/3)) * 3 + Math.floor(x / (450/3))
+  }
+
   canvas.addEventListener('click', (e) => {
     let gameOver = false
 
-    // offsetX = !e.offsetX ? (e.pageX - this.offsetLeft) : e.offsetX,
-    // offsetY = !e.offsetY ? (e.pageY - this.offsetTop) : e.offsetY,
     const offsetX = e.offsetX
     const offsetY = e.offsetY
-    const location = (Math.floor(offsetY / 100) * 3 + Math.floor(offsetX / 100))
+    const location: BoardPos = getOffset(offsetX, offsetY)
 
-    if (offsetY > 300) {
+    if (offsetY > 450) {
       system.getBoard().clear()
       draw.clear()
       gameOver = false
     }
 
-    else if (offsetY <= 300 && offsetX <= 300) {
+    else if (offsetY <= 450 && offsetX <= 450) {
       const whoseTurn = system.getBoard().getTurn()
       const occupy = system.getBoard().occupy(location)
+
       if (occupy && !gameOver) {
         draw.O(location)
         if (system.getBoard().isWinner(1)) {
@@ -62,7 +69,6 @@ const main = (function() {
         if (whoseTurn === 1 && !system.getBoard().isWinner(1) && !system.getBoard().isWinner(-1)) {
           let res = system.choose(-whoseTurn)
           system.getBoard().occupy(res[2])
-
           draw.X(res[2])
 
           if (system.getBoard().isWinner(-1)) {
