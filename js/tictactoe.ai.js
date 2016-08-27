@@ -1,11 +1,13 @@
 'use strict';
 // @flow
 
+import { Board } from './board.js'
+
 class AI {
   board: Board;
 
-  constructor() {
-    this.board = new Board()
+  constructor(board?: Board) {
+    this.board = new Board(board)
   }
 
   getBoard(): Board {
@@ -76,3 +78,8 @@ class AlphaBetaAI extends AI {
   }
 
 }
+try {
+  module.exports.AI = AI
+  module.exports.RandomAI = RandomAI
+  module.exports.AlphaBetaAI = AlphaBetaAI
+} catch (e) {}
