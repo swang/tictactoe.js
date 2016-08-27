@@ -1,6 +1,5 @@
 'use strict';
 // @flow
-
 const count = function(arr: Array<PlayerType>, item: PlayerType) {
   let cnt = 0
   for (let c = 0; c < arr.length; c++) {
@@ -11,10 +10,10 @@ const count = function(arr: Array<PlayerType>, item: PlayerType) {
   return cnt
 }
 
-class Board {
+export class Board {
   board: BoardType;
 
-  constructor(arr: BoardType | Board) {
+  constructor(arr?: BoardType | Board) {
     if (!arr) {
       this.board = [
         0, 0, 0,
@@ -156,29 +155,25 @@ class Board {
 
       let col = [this.pos(r), this.pos(this.add(r, 3)), this.pos(this.add(r, 6))]
 
-      if (count(col, player) > 0 && count(col, -player) === 0) {
+      if (count(col, player) > 0) {
         score += markScore[count(col, player)]
       }
-      else if (count(col, -player) > 0 && count(col, player) === 0) {
+      else if (count(col, -player) > 0) {
         score -= markScore[count(col, -player)]
       }
     }
-    if (count(diag1, player) > 0 && count(diag1, -player) === 0) {
+    if (count(diag1, player) > 0) {
       score += markScore[count(diag1, player)]
     }
-    else if (count(diag1, -player) > 0 && count(diag1, player) === 0) {
+    else if (count(diag1, -player) > 0) {
       score -= markScore[count(diag1, -player)]
     }
-    if (count(diag2, player) > 0 && count(diag2, -player) === 0) {
+    if (count(diag2, player) > 0) {
       score += markScore[count(diag2, player)]
     }
-    else if (count(diag2, -player) > 0 && count(diag2, player) === 0) {
+    else if (count(diag2, -player) > 0) {
       score -= markScore[count(diag2, -player)]
     }
     return score
   }
 }
-
-try {
-  module.exports = Board;
-} catch (e) {}
