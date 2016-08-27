@@ -1,5 +1,5 @@
 const test = require('tape')
-const Board = require('../build/board.js')
+import { Board } from '../js/board.js'
 
 test('winning board logic', function (t) {
   t.plan(8);
@@ -55,7 +55,4 @@ test('getFreePositions returns correct arrays', function(t) {
   t.ok(testSameArray(new Board([1,1,0,0,0,0,0,0,0]).getFreePositions(), [2,3,4,5,6,7,8]))
   t.ok(testSameArray(new Board([1,1,1,0,0,0,0,0,0]).getFreePositions(), [3,4,5,6,7,8]))
   t.ok(testSameArray(new Board([0,0,0,0,0,0,0,0,0]).getFreePositions(), [0,1,2,3,4,5,6,7,8]))
-
-
 })
-
