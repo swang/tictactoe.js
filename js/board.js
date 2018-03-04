@@ -1,13 +1,8 @@
 'use strict';
 // @flow
-const count = function(arr: Array<PlayerType>, item: PlayerType) {
-  let cnt = 0
-  for (let c = 0; c < arr.length; c++) {
-    if (arr[c] == item) {
-      cnt++
-    }
-  }
-  return cnt
+
+const count = function(arr: Array<PlayerType>, item: PlayerType): number {
+  return arr.filter(v => v == item).length
 }
 
 export class Board {
