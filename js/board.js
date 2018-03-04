@@ -24,10 +24,6 @@ export class Board {
     }
   }
 
-  add(c: BoardPos, val: number): BoardPos {
-    return ((c + val): any)
-  }
-
   put(piece: PlayerType, pos: number): void {
     this.board[pos] = piece
   }
@@ -110,8 +106,8 @@ export class Board {
       }
     }
 
-    for (let c: BoardPos = 0; c < 3; c = this.add(c, 1)) {
-      let col = [this.pos(c), this.pos(this.add(c, 3)), this.pos(this.add(c, 6))]
+    for (let c: any = 0; c < 3; c++) {
+      let col = [this.pos(c), this.pos(c + 3), this.pos(c + 6)]
       if (count(col, player) === 3) {
         return [c, c + 6]
       }
@@ -138,7 +134,7 @@ export class Board {
         diag1 = [this.pos(0), this.pos(4), this.pos(8)],
         diag2 = [this.pos(2), this.pos(4), this.pos(6)]
 
-    for (let r: BoardPos = 0; r < 3 ; r = this.add(r, 1)) {
+    for (let r: any = 0; r < 3 ; r++) {
       let row = board.slice(r * 3, (r * 3) + 3)
 
       if (count(row, player) > 0 && count(row, -player) === 0)  {
@@ -148,7 +144,7 @@ export class Board {
         score -= markScore[count(row, -player)]
       }
 
-      let col = [this.pos(r), this.pos(this.add(r, 3)), this.pos(this.add(r, 6))]
+      let col = [this.pos(r), this.pos(r + 3), this.pos(r + 6)]
 
       if (count(col, player) > 0) {
         score += markScore[count(col, player)]
