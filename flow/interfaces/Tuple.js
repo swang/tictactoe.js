@@ -1,1 +1,1 @@
-declare type Tuple = [number, number, void]
+declare type Tuple = [number, number]
