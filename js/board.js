@@ -48,13 +48,13 @@ export class Board {
   getFreePositions(): Array<BoardPos> {
     let moves: Array<BoardPos> = []
     const _board = this.board
-    for (let m: BoardPos = 0; m < _board.length; m = this.add(m, 1)) {
-      if (_board[m] === 0) {
 
-        moves.push(this.add(m, 0))
+    _board.forEach((_: PlayerType, idx: any) => {
+      if (_board[idx] === 0) {
+        moves.push(idx)
       }
-    }
-    return moves
+    })
+    return moves;
   }
 
   endOfGame(): boolean {
@@ -66,7 +66,7 @@ export class Board {
   }
 
   getTurn(): PlayerType {
-    var players = [0, 0]
+    var players: Array<PlayerType> = [0, 0]
 
     for (var b = 0; b < this.board.length; b++) {
       if (b > 8) {

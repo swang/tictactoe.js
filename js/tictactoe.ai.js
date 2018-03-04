@@ -19,7 +19,7 @@ class AI {
 }
 
 class RandomAI extends AI {
-  choose(player: PlayerType): [PlayerType, number, BoardPos, void] {
+  choose(player: PlayerType): [PlayerType, number, BoardPos] {
     const board = this.getBoard()
     const possMoves: Array<BoardPos> = board.getFreePositions()
     const result = possMoves[Math.floor(Math.random() * possMoves.length)]
@@ -29,16 +29,16 @@ class RandomAI extends AI {
 
 class AlphaBetaAI extends AI {
 
-  choose(player: PlayerType): [PlayerType, number, BoardPos, void] {
+  choose(player: PlayerType): [PlayerType, number, BoardPos] {
     let max = -Infinity,
-        result = 0,
-        board = this.getBoard()
+        result: BoardPos = 0,
+        board: Board = this.getBoard()
 
     const possMoves: Array<BoardPos> = board.getFreePositions()
 
-    for (var i = 0; i < possMoves.length; i++) {
-      let newBoard = new Board(board)
-      let tryMove = possMoves[i]
+    for (let i = 0; i < possMoves.length; i++) {
+      let newBoard: Board = new Board(board)
+      let tryMove: BoardPos = possMoves[i]
 
       newBoard.put(player, tryMove)
       let val = -this.negaMax(newBoard, 4/*ply*/, -Infinity, Infinity, -player)
@@ -57,11 +57,11 @@ class AlphaBetaAI extends AI {
       return board.getScore(player)
     }
 
-    const possMoves = board.getFreePositions()
+    const possMoves: Array<BoardPos> = board.getFreePositions()
 
     for (let i = 0; i < possMoves.length; i++) {
-      let newBoard = new Board(board)
-      let tryMove = possMoves[i]
+      let newBoard: Board = new Board(board)
+      let tryMove: BoardPos = possMoves[i]
 
       newBoard.put(player, tryMove)
 

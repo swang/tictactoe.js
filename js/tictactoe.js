@@ -65,8 +65,8 @@ const main = (function() {
     }
 
     else if (offsetY <= 450 && offsetX <= 450) {
-      const whoseTurn = system.getBoard().getTurn()
-      const occupy = system.getBoard().occupy(location)
+      const whoseTurn: PlayerType = system.getBoard().getTurn()
+      const occupy: boolean = system.getBoard().occupy(location)
 
       if (occupy && !gameOver) {
         draw.O(location)

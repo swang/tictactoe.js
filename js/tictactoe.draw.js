@@ -1,8 +1,8 @@
 'use strict';
 // @flow
 
-const width = 450
-const colW = width/3
+const width: number = 450
+const colW: number = Math.round(width/3)
 
 class Draw {
   canvas: HTMLCanvasElement;
