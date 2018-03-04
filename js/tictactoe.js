@@ -1,6 +1,9 @@
 'use strict';
-// NOT YET READY for @_flow
-const AI = require('./tictactoe.ai.js')
+
+// @flow
+const AlphaBetaAI = require('./tictactoe.ai.js').AlphaBetaAI
+// const RandomAI = require('./tictactoe.ai.js').RandomAI
+const AI = require('./tictactoe.ai.js').AI
 const Draw = require('./tictactoe.draw.js')
 
 declare class tictactoe {
@@ -8,20 +11,18 @@ declare class tictactoe {
   static draw: Draw;
 }
 
-const AlphaBetaAI = AI.AlphaBetaAI
-
 const main = (function() {
   // to test win scenario, use ai that randomly chooses a valid turn.
   // const system = new RandomAI()
   const system = new AlphaBetaAI()
   const draw = new Draw()
 
-  let canvas = document.getElementById('the_board')
+  let canvas: HTMLCanvasElement = (document.getElementById('the_board'): any)
   if (!(canvas instanceof HTMLCanvasElement)) {
     return
   }
 
-  let context = canvas.getContext('2d')
+  let context: CanvasRenderingContext2D = (canvas.getContext('2d'): any)
   if (!(context instanceof CanvasRenderingContext2D)) {
     return
   }
@@ -32,15 +33,29 @@ const main = (function() {
     draw.newGameButton()
   })
 
-  function getOffset(x: any, y: any): any {
-    return Math.floor(y / (450/3)) * 3 + Math.floor(x / (450/3))
+  function getOffset(x: number, y: number): BoardPos {
+    const result: number = Math.floor(y / (450/3)) * 3 + Math.floor(x / (450/3))
+    switch (result) {
+      case 0:
+      case 1:
+      case 2:
+      case 3:
+      case 4:
+      case 5:
+      case 6:
+      case 7:
+      case 8: return result
+      default: return -1
+    }
   }
 
-  canvas.addEventListener('click', (e) => {
+  canvas.addEventListener('click', (e: any) => {
     let gameOver = false
-
-    const offsetX = e.offsetX
-    const offsetY = e.offsetY
+    if (!(e instanceof Event)) {
+      return
+    }
+    const offsetX: number = e.offsetX
+    const offsetY: number = e.offsetY
     const location: BoardPos = getOffset(offsetX, offsetY)
 
     if (offsetY > 450) {
